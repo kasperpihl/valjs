@@ -1,11 +1,11 @@
 // Validator essentials
 import {
-  createPrimitiveTypeChecker,
   createChainableTypeChecker,
   val,
 } from './validator';
 
-// Import non-primitive types
+// Import types
+import createPrimitive from './types/primitive';
 import createOneOf from './types/oneOf';
 import createArrayOf from './types/arrayOf';
 import createOneOfType from './types/oneOfType';
@@ -23,12 +23,12 @@ import max from './extensions/max';
 // Default export to validate function.
 export default val;
 // Export primitive types
-export const string = createPrimitiveTypeChecker('string', [minLength, maxLength, test]);
-export const bool = createPrimitiveTypeChecker('boolean');
-export const func = createPrimitiveTypeChecker('function', [test]);
-export const number = createPrimitiveTypeChecker('number', [min, max, test]);
-export const array = createPrimitiveTypeChecker('array', [minLength, maxLength, test]);
-export const object = createPrimitiveTypeChecker('object', [test]);
+export const string = createPrimitive('string', [minLength, maxLength, test]);
+export const bool = createPrimitive('boolean');
+export const func = createPrimitive('function', [test]);
+export const number = createPrimitive('number', [min, max, test]);
+export const array = createPrimitive('array', [minLength, maxLength, test]);
+export const object = createPrimitive('object', [test]);
 
 
 // Setup non-primitive types

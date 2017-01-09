@@ -1,7 +1,11 @@
 import {
-  getType,
   genError,
 } from './util';
+
+// ======================================================
+// Helper function to run down the tree.
+// Used for recursive handling of types.
+// ======================================================
 
 export const run = (object, key, value) => {
   let error = null;
@@ -21,6 +25,11 @@ export const run = (object, key, value) => {
   }
   return error;
 };
+
+
+// ======================================================
+// Main function - this is run by the user
+// ======================================================
 
 export const val = (obj, schema) => {
   if (typeof obj !== 'object') {
@@ -75,16 +84,4 @@ export const createChainableTypeChecker = (validate, extensions) => {
   });
 
   return typeChecker;
-};
-
-
-export const createPrimitiveTypeChecker = (expectedType, extensions) => {
-  const validate = (key, value) => {
-    const type = getType(value);
-    if (type !== expectedType) {
-      return genError(key, `Expected ${expectedType}, got ${type}`);
-    }
-    return null;
-  };
-  return createChainableTypeChecker(validate, extensions);
 };
