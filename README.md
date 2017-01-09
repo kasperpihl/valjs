@@ -1,5 +1,5 @@
 ```
-import val, { string } from 'valjs';
+import val, { string } from 'val-js';
 
 const schema = {
   foo: string,
