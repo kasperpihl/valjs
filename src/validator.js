@@ -2,6 +2,12 @@ import {
   genError,
 } from './util';
 
+const globalOptions = {
+  promise: false,
+  resolveOnly: false,
+  runCondition: () => true,
+};
+
 // ======================================================
 // Helper function to run down the tree.
 // Used for recursive handling of types.
@@ -10,18 +16,20 @@ import {
 export const run = (object, key, value) => {
   let error = null;
   const hasValue = (typeof value !== 'undefined' && value !== null);
-  if (typeof object === 'object' && object.__typeChecker) {
+  if (typeof object === 'object' && object.__rootChecker) {
     if (object.__required && !hasValue) {
       error = genError(key, 'required');
     } else if (hasValue) {
-      error = object.__typeChecker(key, value);
+      error = object.__rootChecker(key, value);
       if (!error) {
-        error = object.__handlers.map(({
+        error = object.__chain.map(({
           handler,
           args,
         }) => genError(key, handler(value, ...args))).filter(v => !!v)[0];
       }
     }
+  } else {
+    return genError(key, 'wrong handler in scheme');
   }
   return error;
 };
@@ -31,7 +39,7 @@ export const run = (object, key, value) => {
 // Main function - this is run by the user
 // ======================================================
 
-export const val = (obj, schema) => {
+export const val = (obj, schema, options) => {
   if (typeof obj !== 'object') {
     return 'val can only validate objects (first param)';
   }
@@ -42,46 +50,66 @@ export const val = (obj, schema) => {
     const value = obj[key];
     return run(checker, key, value);
   }).filter(v => !!v)[0];
+  const mergedOptions = Object.assign({}, globalOptions, options);
+  if (mergedOptions.promise) {
+    return new Promise((resolve, reject) => {
+      if (mergedOptions.resolveOnly) {
+        resolve(error);
+      } else {
+        error ? reject(error) : resolve();
+      }
+    });
+  }
   return error || null;
 };
+val.setGlobal = (key, value) => {
+  globalOptions[key] = value;
+};
 
-export const createChainableTypeChecker = (validate, extensions) => {
-  const orgExt = {};
-  if (!extensions) {
-    extensions = [];
-  }
 
-  function extendFunction({ name, handler }) {
-    return (resObj, ...args) => {
-      resObj = Object.assign({}, resObj);
-      resObj.__handlers = resObj.__handlers.concat([{ name, handler, args }]);
-      resObj.require = orgExt.require.bind(null, resObj);
-      extensions.forEach(({ name: n2 }) => {
-        resObj[n2] = orgExt[n2].bind(null, resObj);
-      });
-      return resObj;
-    };
-  }
+// ======================================================
+// All Types should be an instance of this
+// Creating chainable type checker.
+// ======================================================
 
-  const typeChecker = {
-    __typeChecker: validate,
-    __handlers: [],
-    __required: false,
-  };
-  orgExt.require = (resObj) => {
-    resObj = Object.assign({}, resObj);
-    resObj.__required = true;
-    extensions.forEach(({ name }) => {
-      resObj[name] = orgExt[name].bind(null, resObj);
+export const TypeChecker = (validate, extensions) => {
+  // Bind require and all extensions
+  const bindAllExtensions = (valObj) => {
+    valObj.require = valObj.__orgRequire.bind(null, valObj);
+    valObj.extend = valObj.__extend.bind(null, valObj);
+    valObj.__extensions.forEach((ext) => {
+      valObj[ext.name] = runExtension.bind(null, ext, valObj);
     });
-    return resObj;
   };
-  typeChecker.require = orgExt.require.bind(null, typeChecker);
 
-  extensions.forEach((ext) => {
-    orgExt[ext.name] = extendFunction(ext);
-    typeChecker[ext.name] = orgExt[ext.name].bind(null, typeChecker);
-  });
+  // Handler for when an extension get ran. Handles chaining.
+  const runExtension = (ext, valObj, ...args) => {
+    const { name, handler } = ext;
+    valObj = Object.assign({}, valObj);
+    valObj.__chain = valObj.__chain.concat([{ name, handler, args }]);
+    bindAllExtensions(valObj);
+    return valObj;
+  };
 
-  return typeChecker;
+  // Setting initial val object.
+  const valObj = {
+    __rootChecker: validate,
+    __chain: [],
+    __extensions: extensions || [],
+    __required: false,
+    __orgRequire: (resObj) => {
+      resObj = Object.assign({}, resObj);
+      resObj.__required = true;
+      bindAllExtensions(resObj);
+      return resObj;
+    },
+    __extend: (resObj, ext) => {
+      resObj.__extensions.push(ext); // deliberately mutate extensions to work globally
+      bindAllExtensions(resObj);
+    },
+  };
+  // And bind extensions to have the valObj for chaining
+  bindAllExtensions(valObj);
+
+  return valObj;
 };

@@ -1,6 +1,6 @@
 export const genError = (key, error) => {
   if (error) {
-    return `'${key}' invalid: ${error}`;
+    return `Invalid key '${key}': ${error}`;
   }
   return null;
 };

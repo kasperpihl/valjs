@@ -1,12 +1,12 @@
 import {
-  createChainableTypeChecker,
+  TypeChecker,
 } from '../validator';
 import {
   is,
   genError,
 } from '../util';
 
-export default function createOneOf(extensions) {
+export default function OneOf(extensions) {
   return (expectedValues) => {
     const validate = (key, value) => {
       if (!Array.isArray(expectedValues)) {
@@ -25,6 +25,6 @@ export default function createOneOf(extensions) {
       }
       return null;
     };
-    return createChainableTypeChecker(validate, extensions);
+    return TypeChecker(validate, extensions);
   };
 }

@@ -1,12 +1,12 @@
 import {
-  createChainableTypeChecker,
+  TypeChecker,
   run,
 } from '../validator';
 import {
   genError,
 } from '../util';
 
-export default function createShape(extensions) {
+export default function Shape(extensions) {
   return (shapeTypes) => {
     const validate = (key, value) => {
       if (typeof shapeTypes !== 'object') {
@@ -23,6 +23,6 @@ export default function createShape(extensions) {
 
       return error || null;
     };
-    return createChainableTypeChecker(validate);
+    return TypeChecker(validate);
   };
 }

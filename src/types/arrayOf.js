@@ -1,5 +1,5 @@
 import {
-  createChainableTypeChecker,
+  TypeChecker,
   run,
 } from '../validator';
 import {
@@ -7,7 +7,7 @@ import {
   genError,
 } from '../util';
 
-export default function createArrayOf(extensions) {
+export default function ArrayOf(extensions) {
   return (typeChecker) => {
     const validate = (key, value) => {
       if (typeof typeChecker !== 'function') {
@@ -20,6 +20,6 @@ export default function createArrayOf(extensions) {
       const error = value.map((v, i) => run(typeChecker, `${key}[${i}]`, v)).filter(v => !!v)[0];
       return error || null;
     };
-    return createChainableTypeChecker(validate, extensions);
+    return TypeChecker(validate, extensions);
   };
 }

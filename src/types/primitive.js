@@ -3,9 +3,10 @@ import {
   genError,
 } from '../util';
 import {
-  createChainableTypeChecker,
+  TypeChecker,
 } from '../validator';
-export const createPrimitive = (expectedType, extensions) => {
+
+export default function Primitive(expectedType, extensions) {
   const validate = (key, value) => {
     const type = getType(value);
     if (type !== expectedType) {
@@ -13,5 +14,5 @@ export const createPrimitive = (expectedType, extensions) => {
     }
     return null;
   };
-  return createChainableTypeChecker(validate, extensions);
-};
+  return TypeChecker(validate, extensions);
+}

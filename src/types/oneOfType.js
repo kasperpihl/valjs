@@ -1,12 +1,12 @@
 import {
-  createChainableTypeChecker,
+  TypeChecker,
   run,
 } from '../validator';
 import {
   genError,
 } from '../util';
 
-export default function createOneOfType(extensions) {
+export default function OneOfType(extensions) {
   return (arrayOfTypeCheckers) => {
     const validate = (key, value) => {
       if (!Array.isArray(arrayOfTypeCheckers)) {
@@ -18,6 +18,6 @@ export default function createOneOfType(extensions) {
       }
       return null;
     };
-    return createChainableTypeChecker(validate, extensions);
+    return TypeChecker(validate, extensions);
   };
 }
