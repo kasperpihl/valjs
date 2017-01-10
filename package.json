@@ -1,6 +1,6 @@
 {
   "name": "valjs",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Powerful validator working similar to React PropTypes",
   "main": "src/index.js",
   "repository": {
