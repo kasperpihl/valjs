@@ -38,6 +38,7 @@ export const run = (object, key, value) => {
 export const TypeChecker = (validate, extensions) => {
   // Bind require and all extensions
   const bindAllExtensions = (valObj) => {
+    valObj.run = valObj.__run.bind(null, valObj);
     valObj.require = valObj.__orgRequire.bind(null, valObj);
     valObj.extend = valObj.__extend.bind(null, valObj);
     valObj.__extensions.forEach((ext) => {
@@ -60,6 +61,7 @@ export const TypeChecker = (validate, extensions) => {
     __chain: [],
     __extensions: extensions || [],
     __required: false,
+    __run: (resObj, value) => run(resObj, '', value),
     __orgRequire: (resObj) => {
       resObj = Object.assign({}, resObj);
       resObj.__required = true;
