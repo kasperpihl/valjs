@@ -3,6 +3,48 @@ import {
   isValHandler,
 } from './util';
 
+const globalOptions = {
+  promise: false,
+  resolveOnly: false,
+  runCondition: () => true,
+  log: false,
+};
+
+// ======================================================
+// Main function - this is run by the user
+// ======================================================
+export const val = (obj, schema, options) => {
+  const mergedOptions = Object.assign({}, globalOptions, options);
+  // Checking if run condition is set.
+  if (!mergedOptions.runCondition()) {
+    return null;
+  }
+
+  let error;
+  if (isValHandler(schema)) {
+    error = run(schema, null, obj);
+  } else {
+    console.warn('valjs: invalid scheme provided');
+  }
+  if(mergedOptions.log){
+    console.log(error || null);
+  }
+  if (mergedOptions.promise) {
+    return new Promise((resolve, reject) => {
+      if (!mergedOptions.resolveOnly && error) {
+        return reject(error);
+      }
+      return resolve(error || null);
+    });
+  }
+  return error || null;
+}
+
+// Support for setting global options.
+val.setGlobal = (key, value) => {
+  globalOptions[key] = value;
+};
+
 // ======================================================
 // Helper function to run down the tree.
 // Used for recursive handling of types.
@@ -61,7 +103,7 @@ export const TypeChecker = (validate, extensions) => {
     __chain: [],
     __extensions: extensions || [],
     __required: false,
-    __run: (resObj, value) => run(resObj, '', value),
+    __run: (resObj, value, options) => val(value, resObj, options),
     __orgRequire: (resObj) => {
       resObj = Object.assign({}, resObj);
       resObj.__required = true;

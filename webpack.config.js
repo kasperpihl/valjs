@@ -4,10 +4,15 @@ var path = require('path');
 module.exports = {
   context: __dirname,
   devtool: 'eval',
-  entry: './src/index',
+  entry: {
+    val: [
+      './src/index'
+    ],
+    example: './src/example',
+  },
   output: {
       path: path.join(__dirname, 'dist'),
-      filename: "val.js",
+      filename: "[name].js",
       library: 'val',
       libraryTarget: 'umd',
       umdNamedDefine: true

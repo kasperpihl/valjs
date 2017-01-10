@@ -27,7 +27,7 @@ export default function ArrayOf(extensions) {
           return false;
         });
         if (!passed) {
-          error = genError(key, `Expected value ${typeChecker}, got ${value}`);
+          error = genError(key, 'did not match arrayOf value');
         }
       }
       return error || null;

@@ -18,8 +18,8 @@ export default function ObjectOf(extensions) {
       }
       let error;
       const arr = Object.entries(value);
-      if (isValHandler(typeChecker) && value.length) {
-        error = arr.map(([v, k]) => run(typeChecker, `${key}.${k}`, v)).filter(v => !!v)[0];
+      if (isValHandler(typeChecker) && arr.length) {
+        error = arr.map(([k, v]) => run(typeChecker, `${key}.${k}`, v)).filter(v => !!v)[0];
       } else if (arr.length) {
         const passed = arr.find(([v]) => {
           if (is(value, v)) {
@@ -28,7 +28,7 @@ export default function ObjectOf(extensions) {
           return false;
         });
         if (!passed) {
-          error = genError(key, `Expected value ${typeChecker}, got ${value}`);
+          error = error = genError(key, 'did not match objectOf value');;
         }
       }
       return error || null;

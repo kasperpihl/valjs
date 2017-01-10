@@ -2,6 +2,7 @@
 import {
   TypeChecker,
   run,
+  val,
 } from './validator';
 import { isValHandler } from './util';
 
@@ -9,6 +10,7 @@ import { isValHandler } from './util';
 import Primitive from './types/primitive';
 import OneOf from './types/oneOf';
 import ArrayOf from './types/arrayOf';
+import ObjectOf from './types/objectOf';
 import Shape from './types/shape';
 import Custom from './types/custom';
 
@@ -32,45 +34,9 @@ export const object = Primitive('object', [test]);
 // Setup non-primitive types
 export const any = TypeChecker(value => !!value, [test]);
 export const arrayOf = ArrayOf([minLength, maxLength, test]);
+export const objectOf = ObjectOf();
 export const oneOf = OneOf([test]);
 export const shape = Shape([test]);
 export const custom = Custom();
 
-const globalOptions = {
-  promise: false,
-  resolveOnly: false,
-  runCondition: () => true,
-};
-
-// ======================================================
-// Main function - this is run by the user
-// ======================================================
-export default function val(obj, schema, options) {
-  const mergedOptions = Object.assign({}, globalOptions, options);
-  // Checking if run condition is set.
-  if (!mergedOptions.runCondition()) {
-    return null;
-  }
-
-  let error;
-  if (isValHandler(schema)) {
-    error = run(schema, null, obj);
-  } else {
-    console.warn('valjs: invalid scheme provided');
-  }
-
-  if (mergedOptions.promise) {
-    return new Promise((resolve, reject) => {
-      if (!mergedOptions.resolveOnly && error) {
-        return reject(error);
-      }
-      return resolve(error);
-    });
-  }
-  return error || null;
-}
-
-// Support for setting global options.
-val.setGlobal = (key, value) => {
-  globalOptions[key] = value;
-};
+export default val;
