@@ -1,9 +1,11 @@
 export const genError = (key, error) => {
   if (error) {
-    return `Invalid key '${key}': ${error}`;
+    const keyString = key ? ` key '${key}'` : '';
+    return `Invalid${keyString}: ${error}`;
   }
   return null;
 };
+export const isValHandler = vH => (typeof vH === 'object' && vH.__rootChecker);
 
 
 const isSymbol = (type, value) => {

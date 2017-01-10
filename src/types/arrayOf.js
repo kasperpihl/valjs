@@ -4,20 +4,32 @@ import {
 } from '../validator';
 import {
   getType,
+  isValHandler,
   genError,
+  is,
 } from '../util';
 
 export default function ArrayOf(extensions) {
   return (typeChecker) => {
     const validate = (key, value) => {
-      if (typeof typeChecker !== 'function') {
-        return genError(key, 'Invalid notation inside arrayOf. Expected function');
-      }
       const type = getType(value);
       if (type !== 'array') {
         return genError(key, `Expected array, got ${type}`);
       }
-      const error = value.map((v, i) => run(typeChecker, `${key}[${i}]`, v)).filter(v => !!v)[0];
+      let error;
+      if (isValHandler(typeChecker) && value.length) {
+        error = value.map((v, i) => run(typeChecker, `${key}[${i}]`, v)).filter(v => !!v)[0];
+      } else if (value.length) {
+        const passed = value.find((av) => {
+          if (is(value, av)) {
+            return true;
+          }
+          return false;
+        });
+        if (!passed) {
+          error = genError(key, `Expected value ${typeChecker}, got ${value}`);
+        }
+      }
       return error || null;
     };
     return TypeChecker(validate, extensions);

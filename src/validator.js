@@ -1,12 +1,7 @@
 import {
   genError,
+  isValHandler,
 } from './util';
-
-const globalOptions = {
-  promise: false,
-  resolveOnly: false,
-  runCondition: () => true,
-};
 
 // ======================================================
 // Helper function to run down the tree.
@@ -16,7 +11,7 @@ const globalOptions = {
 export const run = (object, key, value) => {
   let error = null;
   const hasValue = (typeof value !== 'undefined' && value !== null);
-  if (typeof object === 'object' && object.__rootChecker) {
+  if (isValHandler(object)) {
     if (object.__required && !hasValue) {
       error = genError(key, 'required');
     } else if (hasValue) {
@@ -32,38 +27,6 @@ export const run = (object, key, value) => {
     return genError(key, 'wrong handler in scheme');
   }
   return error;
-};
-
-
-// ======================================================
-// Main function - this is run by the user
-// ======================================================
-
-export const val = (obj, schema, options) => {
-  if (typeof obj !== 'object') {
-    return 'val can only validate objects (first param)';
-  }
-  if (typeof schema !== 'object') {
-    return 'val requires a schema as object (second param)';
-  }
-  const error = Object.entries(schema).map(([key, checker]) => {
-    const value = obj[key];
-    return run(checker, key, value);
-  }).filter(v => !!v)[0];
-  const mergedOptions = Object.assign({}, globalOptions, options);
-  if (mergedOptions.promise) {
-    return new Promise((resolve, reject) => {
-      if (mergedOptions.resolveOnly) {
-        resolve(error);
-      } else {
-        error ? reject(error) : resolve();
-      }
-    });
-  }
-  return error || null;
-};
-val.setGlobal = (key, value) => {
-  globalOptions[key] = value;
 };
 
 
