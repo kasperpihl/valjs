@@ -1,25 +1,28 @@
 ## Basic usage
-Validate string, two ways of running validator
+Get started
 ```
-import val, { string } from 'valjs';
+npm install --save valjs;
+```
+Run your validations
+```
+import valjs, { string } from 'valjs';
 
-let testString = 'hello'
-let error = val(testString, string);
-error = string.run(testString);
+let error = valjs('hello', string);
 // passes! (null)
 ```
 Or you can use promises
 ```
-string.run(testString, {promise: true}).then(() => {
+valjs('hello', string, {promise: true}).then(() => {
   // passed
 }).catch((err) => {
   // failed with error
 })
 ```
+PS. see below for skipping the { promise: true } options with setGlobal
 
 ## Cheatsheet
 ```
-import val, {
+import valjs, {
   string,
   number,
   bool,
@@ -64,12 +67,23 @@ const passingObject = {
   ten: 'swipes',
 }
 
-const error = val(passingObject, scheme);
+const error = valjs(passingObject, scheme);
 // passes!
 ```
 
 ## Options
+All options can also be passed as an object in the third parameter of valjs function.
+Here it is shown how to set them globally.
+
+Log out errors (useful for debugging, shouldn't be used in production)
 ```
-import val from 'valjs';
-val.setGlobal('promise')
+valjs.setGlobal('log', true);
+```
+Make promises the default way for valjs.
+```
+valjs.setGlobal('promise', true) // make promises default way
+```
+Change condition for when to run (great if you don't want to validate in production fx)
+```
+valjs.setGlobal('runCondition', () => (env !== 'dev'))
 ```

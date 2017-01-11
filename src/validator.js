@@ -26,8 +26,8 @@ export const val = (obj, schema, options) => {
   } else {
     console.warn('valjs: invalid scheme provided');
   }
-  if(mergedOptions.log){
-    console.log(error || null);
+  if(mergedOptions.log && error){
+    console.log(error);
   }
   if (mergedOptions.promise) {
     return new Promise((resolve, reject) => {
