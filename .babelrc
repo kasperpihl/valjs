@@ -3,7 +3,7 @@
     "es2015"
   ],
   "plugins": [
-    "babel-plugin-transform-object-entries"
+    "babel-plugin-transform-object-entries",
     "transform-object-rest-spread"
   ]
 }
