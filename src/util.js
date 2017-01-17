@@ -15,7 +15,7 @@ const isSymbol = (type, value) => {
   }
 
   // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
-  if (value['@@toStringTag'] === 'Symbol') {
+  if (value && value['@@toStringTag'] === 'Symbol') {
     return true;
   }
 
@@ -26,6 +26,10 @@ const isSymbol = (type, value) => {
 
   return false;
 };
+
+export const isValidDate = (date) => {
+  return date instanceof Date && !isNaN(date.valueOf())
+}
 
 export const getType = (value) => {
   const type = typeof value;

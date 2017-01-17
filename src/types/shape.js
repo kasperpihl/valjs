@@ -18,7 +18,7 @@ export default function Shape(extensions) {
 
       const error = Object.entries(shapeTypes).map(([oKey, checker]) => {
         const oVal = value[oKey];
-        const newKey = ? key ? `${key}.${oKey}` : oKey;
+        const newKey = key ? `${key}.${oKey}` : oKey;
         return run(checker, newKey, oVal);
       }).filter(v => !!v)[0];
 
