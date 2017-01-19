@@ -26,7 +26,10 @@ import max from './extensions/max_length';
 // Export primitive types
 
 // eq, neq, gt, gte, lt, lte
-const comparisons = values(comparisonsObj);
+const comparisons = [];
+for(var key in comparisonsObj){
+  comparisons.push(comparisonsObj[key]);
+}
 const { eq, neq } = comparisons;
 export const string = Primitive('string', [...comparisons, format, min, max]);
 export const number = Primitive('number', [...comparisons, format]);
