@@ -30,7 +30,9 @@
     "rimraf": "^2.5.4",
     "webpack": "^1.13.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "object.values": "^1.0.4"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "webpack",
