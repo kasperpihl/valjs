@@ -4,7 +4,6 @@ import {
   run,
   val,
 } from './validator';
-import values from 'object.values';
 import { isValHandler } from './util';
 
 // Import types

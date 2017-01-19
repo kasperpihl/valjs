@@ -31,7 +31,6 @@
     "webpack": "^1.13.0"
   },
   "dependencies": {
-    "object.values": "^1.0.4"
   },
   "scripts": {
     "prebuild": "rimraf dist",
