@@ -29,7 +29,7 @@ const comparisons = [];
 for(var key in comparisonsObj){
   comparisons.push(comparisonsObj[key]);
 }
-const { eq, neq } = comparisons;
+const { eq, neq } = comparisonsObj;
 export const string = Primitive('string', [...comparisons, format, min, max]);
 export const number = Primitive('number', [...comparisons, format]);
 export const bool = Primitive('boolean', [eq, neq]);
@@ -41,7 +41,7 @@ export const object = Primitive('object', [test]);
 
 // Setup non-primitive types
 export const any = TypeChecker(value => !!value, [test]);
-export const arrayOf = ArrayOf([minLength, maxLength, test]);
+export const arrayOf = ArrayOf([min, max, test]);
 export const objectOf = ObjectOf();
 export const oneOf = OneOf([test]);
 export const shape = Shape([test]);
