@@ -19,22 +19,22 @@ import DateChecker from './types/date';
 import * as comparisonsObj from './extensions/comparisons';
 import format from './extensions/format';
 import test from './extensions/test';
-import minLength from './extensions/min_length';
-import maxLength from './extensions/max_length';
-import min from './extensions/min';
-import max from './extensions/max';
-
+import min from './extensions/min_length';
+import max from './extensions/max_length';
 
 // Export primitive types
 
+// eq, neq, gt, gte, lt, lte
 const comparisons = Object.values(comparisonsObj);
-export const string = Primitive('string', [...comparisons, format]);
+const { eq, neq } = comparisons;
+export const string = Primitive('string', [...comparisons, format, min, max]);
 export const number = Primitive('number', [...comparisons, format]);
-export const bool = Primitive('boolean');
-export const func = Primitive('function', [test]);
-export const array = Primitive('array', [minLength, maxLength, test]);
-export const object = Primitive('object', [test]);
+export const bool = Primitive('boolean', [eq, neq]);
 export const date = DateChecker([test]);
+export const func = Primitive('function', [test]);
+export const array = Primitive('array', [min, max, test]);
+export const object = Primitive('object', [test]);
+
 
 // Setup non-primitive types
 export const any = TypeChecker(value => !!value, [test]);
