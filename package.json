@@ -1,6 +1,6 @@
 {
   "name": "valjs",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Powerful validator working similar to React PropTypes",
   "main": "dist/val.js",
   "repository": {
@@ -30,8 +30,7 @@
     "rimraf": "^2.5.4",
     "webpack": "^1.13.0"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "webpack",
