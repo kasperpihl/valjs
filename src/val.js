@@ -43,8 +43,8 @@ export default function val(obj, valHandler, options) {
       error = `${prefix}: ${error}`;
     }
   }
-  if(mergedOptions.log && error){
-    console.log('error', error);
+  if(mergedOptions.log){
+    console.log(error || 'passed');
   }
   if (mergedOptions.promise) {
     return new Promise((resolve, reject) => {

@@ -17,13 +17,19 @@ export function of(key, value, ...expected) {
     const nKey = nestedKey(key, k);
     let nestedError;
     const passed = expected.find((ev) => {
-      nestedError = this.nested(nKey, v, ev);
-      return !!nestedError;
+      let err = this.nested(nKey, v, ev);
+      if(err){
+        if(err.error !== 'not matching'){
+          nestedError = err;
+        }
+        return false;
+      }
+      return true;
     });
     if (typeof passed === 'undefined') {
-      /*if(nestedError){
+      if(nestedError){
         return nestedError;
-      }*/
+      }
       return genError(nKey, 'did not match of() values');
     }
     return null;
@@ -36,12 +42,22 @@ export function of(key, value, ...expected) {
 
 export function includes(key, value, expected) {
   const iterator = getIterativeArray(value);
+  let nestedError;
   const passed = iterator.find(([k, v]) => {
     const nKey = nestedKey(key, k);
     let err = this.nested(nKey, v, expected);
-    return !!err;
-  })
+    if(err){
+      if(err.error !== 'not matching'){
+        nestedError = err;
+      }
+      return false;
+    }
+    return true;
+  });
   if (typeof passed === 'undefined') {
+    if(nestedError){
+      return nestedError;
+    }
     return 'did not include expected value';
   }
   return null;
@@ -53,7 +69,7 @@ export function as(key, value, shape, strict) {
     return 'error in as(). expected ' + getType(shape) + '. got ' + getType(value);
   }
   const iterator = getIterativeArray(shape);
-  const errors = iterator.map(([k, ev]) => {
+  const error = iterator.map(([k, ev]) => {
     const nKey = nestedKey(key, k);
     const shapeType = getType(shape);
     let v = value[k];
@@ -63,9 +79,6 @@ export function as(key, value, shape, strict) {
       }
     }
     return this.nested(nKey, v, ev);
-  }).filter(v => !!v);
-  if(errors.length){
-    return errors[0];
-  }
-  return null;
+  }).filter(v => !!v)[0];
+  return error || null;
 };
