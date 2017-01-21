@@ -4,7 +4,7 @@ import { number } from 'valjs';
 ## Defaults
 ```
 number.require().test(9) // require to be set
-number.custom((value) => { return null }) // custom handler
+number.custom((value) => { return null }) // custom handler, return string if error
 ```
 ## Comparisons
 ```
