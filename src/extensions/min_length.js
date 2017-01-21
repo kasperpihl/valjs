@@ -1,6 +1,6 @@
 export default {
   name: 'min',
-  handler: (value, min) => {
+  handler: (key, value, min) => {
     if (typeof min !== 'number') {
       return 'Invalid notation in min. Expected number';
     }

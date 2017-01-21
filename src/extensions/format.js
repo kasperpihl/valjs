@@ -6,7 +6,7 @@ const defFormats = {
 
 export default {
   name: 'format',
-  handler: (value, format) => {
+  handler: (key, value, format) => {
     if (typeof format === 'string') {
       if(!defFormats[format]){
         return `Unknown format '${format}'. Supported: ${Object.keys(defFormats)}`;

@@ -19,6 +19,7 @@ import DateChecker from './types/date';
 
 // Import Extensions
 import * as comparisonsObj from './extensions/comparisons';
+import * as iterativesObj from './extensions/iteratives';
 import format from './extensions/format';
 import test from './extensions/test';
 import min from './extensions/min_length';
@@ -31,14 +32,18 @@ const comparisons = [];
 for(var key in comparisonsObj){
   comparisons.push(comparisonsObj[key]);
 }
+const iteratives = [];
+for(var key in iterativesObj){
+  iteratives.push(iterativesObj[key]);
+}
 const { eq, neq } = comparisonsObj;
 export const string = Primitive('string', [...comparisons, format, min, max]);
 export const number = Primitive('number', [...comparisons, format]);
 export const bool = Primitive('boolean', [eq, neq]);
 export const date = DateChecker([test]);
 export const func = Primitive('function', [test]);
-export const array = Primitive('array', [min, max, test]);
-export const object = Primitive('object', [test]);
+export const array = Primitive('array', [...iteratives, min, max, test]);
+export const object = Primitive('object', [...iteratives, test]);
 
 
 // Setup non-primitive types

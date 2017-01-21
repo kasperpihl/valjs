@@ -3,7 +3,7 @@ const getValue = (value) => {
 }
 export const eq = {
   name: 'eq',
-  handler: (value, expected) => {
+  handler: (key, value, expected) => {
     value = getValue(value);
     if (value !== expected) {
       return `Not equal '${expected}'`;
@@ -13,7 +13,7 @@ export const eq = {
 };
 export const neq = {
   name: 'neq',
-  handler: (value, expected) => {
+  handler: (key, value, expected) => {
     value = getValue(value);
     if (value === expected) {
       return `Equal '${expected}'`;
@@ -24,7 +24,7 @@ export const neq = {
 
 export const gt = {
   name: 'gt',
-  handler: (value, expected) => {
+  handler: (key, value, expected) => {
     value = getValue(value);
     if (value <= expected) {
       return `Not greater than '${expected}'`;
@@ -35,7 +35,7 @@ export const gt = {
 
 export const gte = {
   name: 'gte',
-  handler: (value, expected) => {
+  handler: (key, value, expected) => {
     value = getValue(value);
     if (value < expected) {
       return `Not greater than equal '${expected}'`;
@@ -46,7 +46,7 @@ export const gte = {
 
 export const lt = {
   name: 'lt',
-  handler: (value, expected) => {
+  handler: (key, value, expected) => {
     value = getValue(value);
     if (value >= expected) {
       return `Not less than '${expected}'`;
@@ -57,7 +57,7 @@ export const lt = {
 
 export const lte = {
   name: 'lte',
-  handler: (value, expected) => {
+  handler: (key, value, expected) => {
     value = getValue(value);
     if (value > expected) {
       return `Not less than equal '${expected}'`;

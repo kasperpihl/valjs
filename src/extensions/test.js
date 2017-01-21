@@ -1,6 +1,6 @@
 export default {
   name: 'test',
-  handler: (value, callback) => {
+  handler: (key, value, callback) => {
     if (typeof callback !== 'function') {
       return 'Invalid notation in test. Expected function';
     }

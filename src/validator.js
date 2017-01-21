@@ -62,7 +62,7 @@ export const run = (object, key, value) => {
         error = object.__chain.map(({
           handler,
           args,
-        }) => genError(key, handler(value, ...args))).filter(v => !!v)[0];
+        }) => genError(key, handler(key, value, ...args))).filter(v => !!v)[0];
       }
     }
   } else {

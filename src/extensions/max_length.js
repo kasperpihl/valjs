@@ -1,6 +1,6 @@
 export default {
   name: 'max',
-  handler: (value, max) => {
+  handler: (key, value, max) => {
     if (typeof max !== 'number') {
       return 'Invalid notation in max. Expected number';
     }

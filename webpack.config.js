@@ -39,6 +39,10 @@ module.exports = {
             babelrc: false,
             presets: [
               ['es2015', { modules: false }]
+            ],
+            "plugins": [
+              "babel-plugin-transform-object-entries",
+              "transform-object-rest-spread"
             ]
           }
         }],
