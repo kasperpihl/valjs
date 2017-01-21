@@ -6,7 +6,6 @@ import {
 
 
 const globalOptions = {
-  promise: false,
   resolveOnly: false,
   runCondition: () => true,
   log: false,
@@ -46,14 +45,7 @@ export default function val(obj, valHandler, options) {
   if(mergedOptions.log){
     console.log(error || 'passed');
   }
-  if (mergedOptions.promise) {
-    return new Promise((resolve, reject) => {
-      if (!mergedOptions.resolveOnly && error) {
-        return reject(error);
-      }
-      return resolve(error || null);
-    });
-  }
+
   return error || null;
 }
 
