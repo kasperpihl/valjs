@@ -1,4 +1,6 @@
+import 'babel-polyfill';
 // Validator essentials
+
 import {
   TypeChecker,
   run,

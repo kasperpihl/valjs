@@ -17,11 +17,31 @@ module.exports = {
       libraryTarget: 'umd',
       umdNamedDefine: true
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: [ 'babel-loader' ],
+        use: [ {
+          loader: 'babel-loader',
+          query: {
+            babelrc: false,
+            presets: [
+              ['es2015', { modules: false }]
+            ]
+          }
+        }],
         exclude: /node_modules/
       }
     ]
