@@ -28,26 +28,23 @@ import valjs, {
   bool,
   func,
   object,
-  shape,
-  arrayOf,
-  objectOf,
-  oneOf,
-  custom,
+  array,
+  date,
+  any
 } from 'valjs';
 
-const scheme = shape({
+const scheme = object.as({
   one: string.require(), // make required!
   two: number.min(6).require(), // set min number to six and require
   three: bool,
   four: func,
   five: object,
-  six: shape({
+  six: object.as({
     half: bool,
   }),
-  seven: arrayOf(string),
-  eigth: objectOf(string),
-  nine: oneOf([1337]),
-  ten: (v) => (v === 'swipes' ? null : 'not swipes'),
+  seven: array.of(string),
+  eigth: object.of(string),
+  nine: any.of(1337),
 });
 
 const passingObject = {
@@ -64,7 +61,6 @@ const passingObject = {
     half: 'hello'
   },
   nine: 1337,
-  ten: 'swipes',
 }
 
 const error = valjs(passingObject, scheme);

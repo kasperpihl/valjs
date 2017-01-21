@@ -5,19 +5,18 @@ const defFormats = {
 };
 
 export default {
-  name: 'format',
-  handler: (key, value, format) => {
+  format: (key, value, format) => {
     if (typeof format === 'string') {
       if(!defFormats[format]){
-        return `Unknown format '${format}'. Supported: ${Object.keys(defFormats)}`;
+        return `unknown format '${format}'. supporting: ${Object.keys(defFormats)}`;
       }
       format = defFormats[format];
     }
     if(!format instanceof RegExp){
-      return `Format not a regex: ${format}`;
+      return `format not a regex: ${format}`;
     }
     if(!format.test(value)){
-      return `Did not match format`;
+      return `did not match format`;
     }
     return null;
   },

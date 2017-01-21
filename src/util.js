@@ -1,12 +1,32 @@
 export const genError = (key, error) => {
-  if (error) {
-    const keyString = key ? ` key '${key}'` : '';
-    return `Invalid${keyString}: ${error}`;
+  if(typeof key === 'string' && typeof error === 'string'){
+    return {
+      key,
+      error
+    };
   }
-  return null;
 };
+export const nestedKey = (key, k) => {
+  if(typeof k === 'string' && k.length){
+    return `${key}['${k}']`;
+  }
+  if(typeof k === 'number'){
+    return `${key}[${k}]`;
+  }
+  return key;
+}
 export const isValHandler = vH => (typeof vH === 'object' && vH.__rootChecker);
 
+export const getIterativeArray = (value) => {
+  const type = getType(value);
+  if(type === 'object'){
+    return Object.entries(value);
+  }
+  if(type === 'array'){
+    return value.map((v, i) => [i, v]);
+  }
+  return [['', value]];
+}
 
 const isSymbol = (type, value) => {
   // Native Symbol.

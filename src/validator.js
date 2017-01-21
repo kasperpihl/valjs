@@ -2,6 +2,7 @@ import {
   genError,
   isValHandler,
 } from './util';
+import * as defaults from './extensions/defaults';
 
 const globalOptions = {
   promise: false,
@@ -22,12 +23,26 @@ export const val = (obj, schema, options) => {
 
   let error;
   if (isValHandler(schema)) {
-    error = run(schema, null, obj);
+    error = run(schema, '', obj);
   } else {
     console.warn('valjs: invalid scheme provided');
   }
+  if(error){
+    let prefix = 'Invalid';
+    if(typeof error === 'object'){
+      if(error.key.length){
+        error = `${prefix} ${error.key}: ${error.error}`;
+      }
+      else{
+        error = `${prefix}: ${error.error}`;
+      }
+    }
+    else{
+      error = `${prefix}: ${error}`;
+    }
+  }
   if(mergedOptions.log && error){
-    console.log(error);
+    console.log('error', error);
   }
   if (mergedOptions.promise) {
     return new Promise((resolve, reject) => {
@@ -62,11 +77,14 @@ export const run = (object, key, value) => {
         error = object.__chain.map(({
           handler,
           args,
-        }) => genError(key, handler(key, value, ...args))).filter(v => !!v)[0];
+        }) => handler(key, value, ...args)).filter(v => !!v)[0];
       }
     }
   } else {
     return genError(key, 'wrong handler in scheme');
+  }
+  if(typeof error === 'string'){
+    error = genError(key, error);
   }
   return error;
 };
@@ -79,12 +97,16 @@ export const run = (object, key, value) => {
 
 export const TypeChecker = (validate, extensions) => {
   // Bind require and all extensions
+  extensions = extensions || [];
+  extensions.unshift(defaults);
   const bindAllExtensions = (valObj) => {
-    valObj.run = valObj.__run.bind(null, valObj);
-    valObj.require = valObj.__orgRequire.bind(null, valObj);
+    valObj.test = valObj.__test.bind(null, valObj);
+    valObj.require = valObj.__require.bind(null, valObj);
     valObj.extend = valObj.__extend.bind(null, valObj);
     valObj.__extensions.forEach((ext) => {
-      valObj[ext.name] = runExtension.bind(null, ext, valObj);
+      Object.entries(ext).forEach(([name, handler]) => {
+        valObj[name] = runExtension.bind(null, {name, handler}, valObj);
+      })
     });
   };
 
@@ -101,10 +123,10 @@ export const TypeChecker = (validate, extensions) => {
   const valObj = {
     __rootChecker: validate,
     __chain: [],
-    __extensions: extensions || [],
+    __extensions: extensions,
     __required: false,
-    __run: (resObj, value, options) => val(value, resObj, options),
-    __orgRequire: (resObj) => {
+    __test: (resObj, value, options) => val(value, resObj, options),
+    __require: (resObj) => {
       resObj = Object.assign({}, resObj);
       resObj.__required = true;
       bindAllExtensions(resObj);
