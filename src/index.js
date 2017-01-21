@@ -14,9 +14,9 @@ import format from './extensions/format';
 
 export const string = ValHandler('string', [comp, format, bounds]);
 export const number = ValHandler('number', [comp, format]);
-export const bool = ValHandler('boolean', [{ eq: comp.eq, neq: comp.neq}]);
+export const bool = ValHandler('bool', [{ eq: comp.eq, neq: comp.neq}]);
 export const date = ValHandler('date');
-export const func = ValHandler('function');
+export const func = ValHandler('func');
 export const array = ValHandler('array', [iteratives, bounds]);
 export const object = ValHandler('object', [iteratives, bounds]);
 export const any = ValHandler(undefined, [{ of: iteratives.of}]);

@@ -82,6 +82,12 @@ export const getType = (value) => {
   if (Array.isArray(value)) {
     return 'array';
   }
+  if(typeof value === 'boolean'){
+    return 'bool';
+  }
+  if(typeof value === 'function'){
+    return 'func';
+  }
   if (value instanceof RegExp) {
     // Old webkits (at least until Android 4.0) return 'function' rather than
     // 'object' for typeof a RegExp. We'll normalize this here so that /bla/

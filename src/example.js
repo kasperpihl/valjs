@@ -1,8 +1,8 @@
 import 'babel-polyfill';
-import val, { string, number, array, object, any, date } from './index';
+import val, { bool, string, number, array, object, any, date } from './index';
 val.setGlobal('log', true);
 
-date.require().test();
+bool.require().test(false);
 
 console.log('test1');
 object.includes(object.as({
