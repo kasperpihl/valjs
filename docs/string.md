@@ -25,9 +25,7 @@ string.empty().test('') // empty string
 ## Format
 ```
 string.format(/was/i).test('was'); regex
-```
-### Out-of-the-box formats
-```
+// Out-of-the-box formats
 string.format('email').test('support@swipesapp.com') // email checker
 string.format('url').test('https://google.com') // url checker
 string.format('iso8601').test('2017-01-21T22:54:45Z') // iso8601 checker

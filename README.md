@@ -5,19 +5,14 @@ npm install --save valjs;
 ```
 Run your validations
 ```
-import valjs, { string } from 'valjs';
+import { string } from 'valjs';
 
-let error = valjs('hello', string);
-// passes! (null)
+let error = string.test('hello')
+// passes!
+error = string.format('email').test('support@swipesapp.com')
+// passes!
 ```
-Or you can use promises
-```
-valjs('hello', string, {promise: true}).then(() => {
-  // passed
-}).catch((err) => {
-  // failed with error
-})
-```
+
 PS. see below for skipping the { promise: true } options with setGlobal
 
 ## Cheatsheet
