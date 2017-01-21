@@ -1,16 +1,14 @@
 import {
-  run,
-} from '../validator';
-import {
   getType,
   getIterativeArray,
   isValHandler,
   genError,
   nestedKey,
   is,
+  run,
 } from '../util';
 
-export const of = (key, value, ...expected) => {
+export function of(key, value, ...expected) {
   if(getType(expected[0]) === 'array' && typeof expected[1] === 'undefined'){
     expected = expected[0];
   }
@@ -19,21 +17,14 @@ export const of = (key, value, ...expected) => {
     const nKey = nestedKey(key, k);
     let nestedError;
     const passed = expected.find((ev) => {
-      if (isValHandler(ev)) {
-        nestedError = run(ev, nKey, v);
-        if (!nestedError) {
-          return true;
-        }
-      } else if (is(ev, v)) {
-        return true;
-      }
-      return false;
+      nestedError = this.nested(nKey, v, ev);
+      return !!nestedError;
     });
     if (typeof passed === 'undefined') {
-      if(nestedError){
+      /*if(nestedError){
         return nestedError;
-      }
-      return genError(nKey, 'did not match values');
+      }*/
+      return genError(nKey, 'did not match of() values');
     }
     return null;
   }).filter(v => !!v);
@@ -43,7 +34,21 @@ export const of = (key, value, ...expected) => {
   return null;
 };
 
-export const as = (key, value, shape, strict) => {
+export function includes(key, value, expected) {
+  const iterator = getIterativeArray(value);
+  const passed = iterator.find(([k, v]) => {
+    const nKey = nestedKey(key, k);
+    let err = this.nested(nKey, v, expected);
+    return !!err;
+  })
+  if (typeof passed === 'undefined') {
+    return 'did not include expected value';
+  }
+  return null;
+
+}
+
+export function as(key, value, shape, strict) {
   if(getType(value) !== getType(shape)){
     return 'error in as(). expected ' + getType(shape) + '. got ' + getType(value);
   }
@@ -57,12 +62,7 @@ export const as = (key, value, shape, strict) => {
         return genError(nKey, `not allowed (strict mode)`);
       }
     }
-    else if (isValHandler(ev)) {
-      return run(ev, nKey, v);
-    } else if (!is(ev, v)) {
-      return genError(nKey, `not matching expected value`);
-    }
-    return null;
+    return this.nested(nKey, v, ev);
   }).filter(v => !!v);
   if(errors.length){
     return errors[0];

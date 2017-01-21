@@ -13,7 +13,7 @@ const getSize = (value) => {
 }
 
 export const max = (key, value, maxValue) => {
-  if (typeof max !== 'number') {
+  if (typeof maxValue !== 'number') {
     return 'invalid notation in max. expected number';
   }
   const size = getSize(value);
@@ -22,7 +22,7 @@ export const max = (key, value, maxValue) => {
   }
   return null;
 };
-export const min = (key, value, min) => {
+export const min = (key, value, minValue) => {
   if (typeof minValue !== 'number') {
     return 'invalid notation in min. expected number';
   }
@@ -35,7 +35,6 @@ export const min = (key, value, min) => {
 
 export const empty = (key, value) => {
   const size = getSize(value);
-  console.log(size);
   if(size > 0){
     return 'not empty';
   }

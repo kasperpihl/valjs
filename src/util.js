@@ -15,7 +15,34 @@ export const nestedKey = (key, k) => {
   }
   return key;
 }
-export const isValHandler = vH => (typeof vH === 'object' && vH.__rootChecker);
+export const isValHandler = vH => (typeof vH === 'object' && vH.__typeChecker);
+
+// ======================================================
+// Helper function to run down the tree.
+// Used for recursive handling of types.
+// ======================================================
+
+export const run = (valHandler, key, value, overrideValHandler) => {
+  if(typeof overrideValHandler !== 'undefined'){
+    valHandler = overrideValHandler;
+  }
+  let error = null;
+  if (isValHandler(valHandler)) {
+    error = valHandler.__chain.map(({
+      handler,
+      args,
+    }) => handler.bind(valHandler)(key, value, ...args)).filter(v => !!v)[0];
+  } else {
+    if(!is(valHandler, value)){
+      error = genError(key, 'not matching');
+    }
+  }
+  if(typeof error === 'string'){
+    error = genError(key, error);
+  }
+  return error || null;
+};
+
 
 export const getIterativeArray = (value) => {
   const type = getType(value);
@@ -47,9 +74,8 @@ const isSymbol = (type, value) => {
   return false;
 };
 
-export const isValidDate = (date) => {
-  return date instanceof Date && !isNaN(date.valueOf())
-}
+export const isValidDate = (date) => (date instanceof Date && !isNaN(date.valueOf()));
+export const isInvalidDate = (date) => (date instanceof Date && isNaN(date.valueOf()))
 
 export const getType = (value) => {
   const type = typeof value;
@@ -64,6 +90,12 @@ export const getType = (value) => {
   }
   if (isSymbol(type, value)) {
     return 'symbol';
+  }
+  if(isValidDate(value)){
+    return 'date';
+  }
+  if(isInvalidDate(value)){
+    return 'invalid-date';
   }
   return type;
 };
