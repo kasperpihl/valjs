@@ -1,21 +1,49 @@
-## Basic usage
-Get started
+## Installation
 ```
-npm install --save valjs;
+npm install --save valjs
 ```
-Run your validations
+
+## Simple example
+Let's validate if a string is minimum 5 chars.
 ```
 import { string } from 'valjs';
 
-let error = string.test('hello')
-// passes!
-error = string.format('email').test('support@swipesapp.com')
+let error = string.min(5).test('hello')
+// passes! (null)
+```
+
+## Badass example
+Let's validate this
+```
+const todo = {
+  id: 'todo-1',
+  title: 'Ship Login Page',
+  completionDate: '2017-01-21T22:54:45Z',
+  assignees: [
+    'user-1'
+  ],
+  subtasks: [
+    { title: 'Design' },
+    { title: 'Develop' },
+    { title: 'QA' }
+  ]
+}
+```
+Like this
+```
+const error = object.as({
+  id: string.require(),
+  title: string.require().min(1).max(255),
+  completionDate: string.format('iso8601'),
+  assignees: array.require().of(string.min(6).startsWith('user-')),
+  subtasks: array.of(object.as({
+    title: string.require().min(1).max(60)
+  }))
+}).test(todo);
 // passes!
 ```
 
-PS. see below for skipping the { promise: true } options with setGlobal
-
-## Cheatsheet
+## Here are all the supported
 ```
 import valjs, {
   string,
@@ -27,54 +55,4 @@ import valjs, {
   date,
   any
 } from 'valjs';
-
-const scheme = object.as({
-  one: string.require(), // make required!
-  two: number.min(6).require(), // set min number to six and require
-  three: bool,
-  four: func,
-  five: object,
-  six: object.as({
-    half: bool,
-  }),
-  seven: array.of(string),
-  eigth: object.of(string),
-  nine: any.of(1337),
-});
-
-const passingObject = {
-  one: 'hello',
-  two: 9,
-  three: true,
-  four: () => null,
-  five: {},
-  six: {
-    half: true,
-  },
-  seven: ['test', 'hello'],
-  eight: {
-    half: 'hello'
-  },
-  nine: 1337,
-}
-
-const error = valjs(passingObject, scheme);
-// passes!
-```
-
-## Options
-All options can also be passed as an object in the third parameter of valjs function.
-Here it is shown how to set them globally.
-
-Log out errors (useful for debugging, shouldn't be used in production)
-```
-valjs.setGlobal('log', true);
-```
-Make promises the default way for valjs.
-```
-valjs.setGlobal('promise', true) // make promises default way
-```
-Change condition for when to run (great if you don't want to validate in production fx)
-```
-valjs.setGlobal('runCondition', () => (env !== 'dev'))
 ```
