@@ -1,32 +1,20 @@
 ```
-import { string } from 'valjs';
+import { object } from 'valjs';
 ```
 ## Defaults
 ```
-string.require().test('hello') // require to be set
-string.custom((value) => { return null }) // custom handler, return string if error
+object.test({}) // standard tester
+object.require().test('hello') // require to be set
+object.custom((value) => { return null }) // custom handler, return string if error
 ```
-## Comparisons
+## Iteratives
 ```
-string.eq('hello').test('hello') // equal
-string.neq('hello').test('world') // not equal
-string.gt('a').test('b') // greater than
-string.gte('ab').test('ab') // greater than equal
-string.lt('b').test('a') // less than
-string.lte('ab').test('ab') // less than equal
+object.of(1, 2, 3).test({one: 1, two: 2}) // An object with values of either 1, 2 or 3
+object.of([1, 2, 3]).test({one: 1, two: 2}) // Same as above but with array as arg.
 ```
 ## Bounds
 ```
-string.max(5).test('hello') // max length
-string.min(5).test('world') // min length
-string.empty().test('') // empty string
-```
-
-## Format
-```
-string.format(/was/i).test('was'); regex
-// Out-of-the-box formats
-string.format('email').test('support@swipesapp.com') // email checker
-string.format('url').test('https://google.com') // url checker
-string.format('iso8601').test('2017-01-21T22:54:45Z') // iso8601 checker
+object.max(2).test({ one: 1, two: 2 }) // max size
+object.min(2).test({ one: 1, two: 2 }) // min size
+object.empty().test({}) // empty object
 ```
