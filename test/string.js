@@ -65,30 +65,30 @@ describe('string require', function() {
   });
 });
 
-// describe('string custom', function() {
-//   it('check custom', (done) => {
-//     const error = string.custom((value) => {
-//       if (value === 'hi') {
-//         return null;
-//       }
-//     }).test('hi');
-//
-//     should.equal(error, null);
-//     done();
-//   });
-//   it('error custom', (done) => {
-//     const error = string.custom((value) => {
-//       if (value === 'hi') {
-//         return null;
-//       } else {
-//         return '';
-//       }
-//     }).test('hii');
-//
-//     should.equal(error, 'Some error');
-//     done();
-//   });
-// });
+describe('string custom', function() {
+  it('check custom', (done) => {
+    const error = string.custom((value) => {
+      if (value === 'hi') {
+        return null;
+      }
+    }).test('hi');
+
+    should.equal(error, null);
+    done();
+  });
+  it('error custom', (done) => {
+    const error = string.custom((value) => {
+      if (value === 'hi') {
+        return null;
+      } else {
+        return 'Some error';
+      }
+    }).test('hii');
+
+    should.equal(error, 'Invalid: Some error');
+    done();
+  });
+});
 
 describe('string bounds', function() {
   it('check min length', (done) => {
