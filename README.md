@@ -57,10 +57,17 @@ import valjs, {
 } from 'valjs';
 ```
 [string API](https://github.com/swipesapp/valjs/blob/master/docs/string.md)
+
 [number API](https://github.com/swipesapp/valjs/blob/master/docs/number.md)
+
 [bool API](https://github.com/swipesapp/valjs/blob/master/docs/bool.md)
+
 [func API](https://github.com/swipesapp/valjs/blob/master/docs/func.md)
+
 [object API](https://github.com/swipesapp/valjs/blob/master/docs/object.md)
+
 [array API](https://github.com/swipesapp/valjs/blob/master/docs/array.md)
+
 [date API](https://github.com/swipesapp/valjs/blob/master/docs/date.md)
+
 [any API](https://github.com/swipesapp/valjs/blob/master/docs/any.md)
