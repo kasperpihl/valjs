@@ -4,6 +4,7 @@ val.setGlobal('log', true);
 
 bool.require().test(false);
 
+any.require().test();
 console.log('test1');
 object.includes(object.as({
   hello: object.of(string.eq('world'))

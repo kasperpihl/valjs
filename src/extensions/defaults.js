@@ -7,7 +7,7 @@ export function __typeChecker(key, value, expectedType) {
     return 'required';
   }
   const type = getType(value);
-  if (type !== expectedType) {
+  if (expectedType && type !== expectedType) {
     return `expected ${expectedType}. got ${type}`;
   }
   return null;
