@@ -36,7 +36,7 @@
   "dependencies": {},
   "scripts": {
     "prebuild": "rimraf dist",
-    "prepublishOnly": "npm run test",
+    "prepublish": "npm run test",
     "build": "webpack -p --progress",
     "prestart": "npm run build",
     "start": "node ./dist/example.js",
