@@ -29,3 +29,19 @@ export const oneOfType = () => console.warn('oneOfType() not supported. Use any.
 export const arrayOf = () => console.warn('arrayOf() not supported. Use array.of()');
 
 export default val;
+
+export const funcWrap = (valHandlers, callback) => {
+  const wrapError = array.as([
+    array.require(),
+    func.require()
+  ]).test([valHandlers, callback]);
+  if(wrapError){
+    console.warn('funcWrap wrongly used: ', wrapError)
+    return () => {};
+  }
+  return function() {
+    const args = [...arguments];
+    const argsErr = array.as(valHandlers).test(args);
+    callback(argsErr, ...args);
+  }
+}
