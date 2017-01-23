@@ -18,7 +18,8 @@ Let's validate this
 const todo = {
   id: 'todo-1',
   title: 'Ship Login Page',
-  completionDate: '2017-01-21T22:54:45Z',
+  updatedAt: '2017-01-21T22:54:45Z',
+  state: 'completed',
   assignees: [
     'user-1'
   ],
@@ -31,10 +32,13 @@ const todo = {
 ```
 Like this
 ```javascript
+import { object, string, array, any } from 'valjs';
+
 const error = object.as({
   id: string.require(),
   title: string.require().min(1).max(255),
-  completionDate: string.format('iso8601'),
+  updatedAt: string.format('iso8601'),
+  state: any.of('active', 'completed'),
   assignees: array.require().of(string.min(6).startsWith('user-')),
   subtasks: array.of(object.as({
     title: string.require().min(1).max(60)
