@@ -65,30 +65,30 @@ describe('bool require', function() {
   });
 });
 
-// describe('bool custom', function() {
-//   it('check custom', (done) => {
-//     const error = bool.custom((value) => {
-//       if (value === true) {
-//         return null;
-//       }
-//     }).test(true);
-//
-//     should.equal(error, null);
-//     done();
-//   });
-//   it('error custom', (done) => {
-//     const error = bool.custom((value) => {
-//       if (value === false) {
-//         return null;
-//       } else {
-//         return '';
-//       }
-//     }).test(true);
-//
-//     should.equal(error, 'Some error');
-//     done();
-//   });
-// });
+describe('bool custom', function() {
+  it('check custom', (done) => {
+    const error = bool.custom((value) => {
+      if (value === true) {
+        return null;
+      }
+    }).test(true);
+
+    should.equal(error, null);
+    done();
+  });
+  it('error custom', (done) => {
+    const error = bool.custom((value) => {
+      if (value === false) {
+        return null;
+      } else {
+        return 'Some error';
+      }
+    }).test(true);
+
+    should.equal(error, 'Invalid: Some error');
+    done();
+  });
+});
 
 describe('bool comparisons', function() {
   it('check eq', (done) => {

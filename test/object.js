@@ -66,30 +66,30 @@ describe('object require', function() {
   });
 });
 
-// describe('object custom', function() {
-//   it('check custom', (done) => {
-//     const error = object.custom((value) => {
-//       if (value.a === 'hi') {
-//         return null;
-//       }
-//     }).test({a: 'hi'});
-//
-//     should.equal(error, null);
-//     done();
-//   });
-//   it('error custom', (done) => {
-//     const error = object.custom((value) => {
-//       if (value.a === 'hi') {
-//         return null;
-//       } else {
-//         return '';
-//       }
-//     }).test({a: 'hii'});
-//
-//     should.equal(error, 'Some error');
-//     done();
-//   });
-// });
+describe('object custom', function() {
+  it('check custom', (done) => {
+    const error = object.custom((value) => {
+      if (value.a === 'hi') {
+        return null;
+      }
+    }).test({a: 'hi'});
+
+    should.equal(error, null);
+    done();
+  });
+  it('error custom', (done) => {
+    const error = object.custom((value) => {
+      if (value.a === 'hi') {
+        return null;
+      } else {
+        return 'Some error';
+      }
+    }).test({a: 'hii'});
+
+    should.equal(error, 'Invalid: Some error');
+    done();
+  });
+});
 
 describe('object bounds', function() {
   it('check min length', (done) => {

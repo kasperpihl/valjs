@@ -65,30 +65,30 @@ describe('number require', function() {
   });
 });
 
-// describe('number custom', function() {
-//   it('check custom', (done) => {
-//     const error = number.custom((value) => {
-//       if (value === 1) {
-//         return null;
-//       }
-//     }).test(1);
-//
-//     should.equal(error, null);
-//     done();
-//   });
-//   it('error custom', (done) => {
-//     const error = number.custom((value) => {
-//       if (value === 1) {
-//         return null;
-//       } else {
-//         return '';
-//       }
-//     }).test(2);
-//
-//     should.equal(error, 'Some error');
-//     done();
-//   });
-// });
+describe('number custom', function() {
+  it('check custom', (done) => {
+    const error = number.custom((value) => {
+      if (value === 1) {
+        return null;
+      }
+    }).test(1);
+
+    should.equal(error, null);
+    done();
+  });
+  it('error custom', (done) => {
+    const error = number.custom((value) => {
+      if (value === 1) {
+        return null;
+      } else {
+        return 'Some error';
+      }
+    }).test(2);
+
+    should.equal(error, 'Invalid: Some error');
+    done();
+  });
+});
 
 describe('number comparisons', function() {
   it('check eq', (done) => {

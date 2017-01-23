@@ -66,30 +66,30 @@ describe('array require', function() {
   });
 });
 
-// describe('array custom', function() {
-//   it('check custom', (done) => {
-//     const error = array.custom((value) => {
-//       if (value[0] === 'hi') {
-//         return null;
-//       }
-//     }).test(['hi']);
-//
-//     should.equal(error, null);
-//     done();
-//   });
-//   it('error custom', (done) => {
-//     const error = array.custom((value) => {
-//       if (value[0] === 'hi') {
-//         return null;
-//       } else {
-//         return '';
-//       }
-//     }).test(['hii']);
-//
-//     should.equal(error, 'Some error');
-//     done();
-//   });
-// });
+describe('array custom', function() {
+  it('check custom', (done) => {
+    const error = array.custom((value) => {
+      if (value[0] === 'hi') {
+        return null;
+      }
+    }).test(['hi']);
+
+    should.equal(error, null);
+    done();
+  });
+  it('error custom', (done) => {
+    const error = array.custom((value) => {
+      if (value[0] === 'hi') {
+        return null;
+      } else {
+        return 'Some error';
+      }
+    }).test(['hii']);
+
+    should.equal(error, 'Invalid: Some error');
+    done();
+  });
+});
 
 describe('array bounds', function() {
   it('check min length', (done) => {
