@@ -5,7 +5,7 @@ npm install --save valjs
 
 ## Simple example
 Let's validate if a string is minimum 5 chars.
-```
+```javascript
 import { string } from 'valjs';
 
 let error = string.min(5).test('hello')
@@ -14,7 +14,7 @@ let error = string.min(5).test('hello')
 
 ## Badass example
 Let's validate this
-```
+```javascript
 const todo = {
   id: 'todo-1',
   title: 'Ship Login Page',
@@ -30,7 +30,7 @@ const todo = {
 }
 ```
 Like this
-```
+```javascript
 const error = object.as({
   id: string.require(),
   title: string.require().min(1).max(255),
@@ -43,8 +43,8 @@ const error = object.as({
 // passes!
 ```
 
-## Here are all the supported
-```
+## Here are all the supported types
+```javascript
 import valjs, {
   string,
   number,
