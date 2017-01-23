@@ -25,6 +25,7 @@ export const any = ValHandler(undefined, [{ of: iteratives.of}]);
 export const objectOf = () => console.warn('objectOf() not supported. Use: object.of()');
 export const shape = () => console.warn('shape() not supported. Use object.as() or array.as()');
 export const oneOf = () => console.warn('oneOf() not supported. Use any.of()');
+export const oneOfType = () => console.warn('oneOfType() not supported. Use any.of()');
 export const arrayOf = () => console.warn('arrayOf() not supported. Use array.of()');
 
 export default val;
