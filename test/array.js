@@ -2,6 +2,7 @@ import chai from 'chai';
 import valjs, {
   string,
   array,
+  func,
 } from '../dist/val';
 
 const should = chai.should();
@@ -143,6 +144,16 @@ describe('array bounds', function() {
 });
 
 describe('array iteratives', function() {
+  it('check required and optional values', (done) => {
+    const error = array.as([
+      string.require(),
+      func
+    ]).test(['b']);
+
+    should.equal(error, null);
+    done();
+  });
+
   it('check nested with includes, of and as', (done) => {
     const error = array.includes(array.as([
       array.of(string.eq('b')),

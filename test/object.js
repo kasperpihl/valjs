@@ -2,6 +2,7 @@ import chai from 'chai';
 import valjs, {
   string,
   object,
+  func,
 } from '../dist/val';
 
 const should = chai.should();
@@ -143,6 +144,16 @@ describe('object bounds', function() {
 });
 
 describe('object iteratives', function() {
+  it('check required and optional values', (done) => {
+    const error = object.as({
+      a: object.require(),
+      b: func,
+    }).test({a: {}});
+
+    should.equal(error, null);
+    done();
+  });
+
   it('check nested with includes, of and as', (done) => {
     const error = object.includes(object.as({
       a: object.of(string.eq('b')),
