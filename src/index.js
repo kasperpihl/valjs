@@ -42,6 +42,7 @@ export const funcWrap = (valHandlers, callback) => {
   return function() {
     const args = [...arguments];
     const argsErr = array.as(valHandlers).test(args);
-    callback(argsErr, ...args);
+
+    return callback(argsErr, ...args);
   }
 }

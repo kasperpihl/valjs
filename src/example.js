@@ -17,9 +17,13 @@ const addGoal = funcWrap([object.as({
   title: string.require()
 })], (err, goal) => {
   if(!err){
-    console.log('adding', goal);
+    return 'returning some value'
   }
 });
 
-addGoal({id: 'id1', 'title': 'hello'});
+const addGoal2 = () => {
+  console.log(addGoal({id: 'id1', 'title': 'hello'}));
+}
+
+addGoal2();
 deleteGoal('id1');
