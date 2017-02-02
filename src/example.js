@@ -1,8 +1,4 @@
-import 'babel-polyfill';
 import val, { bool, string, number, array, object, any, date, func, funcWrap } from './index';
-
-
-
 
 const deleteGoal = funcWrap([
   string.require()

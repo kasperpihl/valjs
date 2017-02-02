@@ -1,4 +1,3 @@
-import 'babel-polyfill';
 // Validator essentials
 import ValHandler from './val-handler';
 import val from './val';
