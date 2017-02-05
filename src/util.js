@@ -28,15 +28,15 @@ export const run = (valHandler, key, value, overrideValHandler) => {
   }
   let error = null;
   if (isValHandler(valHandler)) {
-    error = valHandler.__chain.map(({
+    valHandler.__chain.forEach(({
       handler,
       args,
     }) => {
-      if(valHandler.__stop){
-        return null;
+      if(!valHandler.__stop && !error){
+        error = handler.bind(valHandler)(key, value, ...args);
       }
-      return handler.bind(valHandler)(key, value, ...args);
-    }).filter(v => !!v)[0];
+    });
+    valHandler.__stop = false;
   } else {
     if(!is(valHandler, value)){
       error = genError(key, 'not matching');

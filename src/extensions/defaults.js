@@ -12,7 +12,7 @@ export function __typeChecker(key, value, expectedType) {
     return `expected ${expectedType}. got ${type}`;
   }
   if(!hasValue){
-    this.setValue('__stop', true);
+    this.__stop = true;
   }
   return null;
 }
