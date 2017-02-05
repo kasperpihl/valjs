@@ -7,6 +7,11 @@ const deleteGoal = funcWrap([
     console.log('deleting: ' + id);
   }
 });
+console.log('func', func.test('hey'));
+console.log('test begun');
+val(null, func);
+console.log(val('hey', func));
+console.log('test end');
 // T_TODO: This should return null
 console.log('error', array.of(string).test([null]));
 

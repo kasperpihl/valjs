@@ -14,7 +14,6 @@ describe('func', function() {
   });
   it('error that got string', (done) => {
     const error = valjs('hey', func);
-
     should.equal(error, 'Invalid: expected func. got string');
     done();
   });

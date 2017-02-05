@@ -16,7 +16,8 @@ export default function ValHandler(expectedType, extensions) {
   const bindAllExtensions = (valObj) => {
     valObj.test = valObj.__test.bind(null, valObj);
     valObj.nested = valObj.__nested.bind(valObj, valObj);
-    valObj.require = valObj.__require.bind(null, valObj);
+    valObj.setValue = valObj.__setValue.bind(null, valObj);
+    valObj.require = valObj.__setValue.bind(null, valObj, '__required', true);
     valObj.extend = valObj.__extend.bind(null, valObj);
     valObj.__extensions.forEach((ext) => {
       Object.entries(ext).forEach(([name, handler]) => {
@@ -41,13 +42,13 @@ export default function ValHandler(expectedType, extensions) {
     __extensions: extensions,
     __required: false,
     __nested: run,
-    __test: (resObj, value, options) => val(value, resObj, options),
-    __require: (resObj) => {
+    __setValue: (resObj, key, value) => {
       resObj = Object.assign({}, resObj);
-      resObj.__required = true;
+      resObj[key] = value;
       bindAllExtensions(resObj);
       return resObj;
     },
+    __test: (resObj, value, options) => val(value, resObj, options),
     __extend: (resObj, ext) => {
       resObj.__extensions.push(ext); // deliberately mutate extensions to work globally
       bindAllExtensions(resObj);
