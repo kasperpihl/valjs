@@ -11,6 +11,9 @@ export function __typeChecker(key, value, expectedType) {
   if (hasValue && expectedType && type !== expectedType) {
     return `expected ${expectedType}. got ${type}`;
   }
+  if(!hasValue){
+    this.__stop = true;
+  }
   return null;
 }
 export const custom = (key, value, handler) => {

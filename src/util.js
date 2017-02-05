@@ -31,7 +31,12 @@ export const run = (valHandler, key, value, overrideValHandler) => {
     error = valHandler.__chain.map(({
       handler,
       args,
-    }) => handler.bind(valHandler)(key, value, ...args)).filter(v => !!v)[0];
+    }) => {
+      if(valHandler.__stop){
+        return null;
+      }
+      return handler.bind(valHandler)(key, value, ...args);
+    }).filter(v => !!v)[0];
   } else {
     if(!is(valHandler, value)){
       error = genError(key, 'not matching');

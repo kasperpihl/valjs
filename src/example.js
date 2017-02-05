@@ -7,6 +7,8 @@ const deleteGoal = funcWrap([
     console.log('deleting: ' + id);
   }
 });
+// T_TODO: This should return null
+console.log('error', array.of(string).test([null]));
 
 const addGoal = funcWrap([object.as({
   id: string.require(),
