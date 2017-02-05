@@ -32,7 +32,9 @@
     "rimraf": "^2.5.4",
     "webpack": "^2.2.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "core-js": "^2.4.1"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "prepublish": "npm run test",

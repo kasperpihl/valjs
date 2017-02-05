@@ -4,7 +4,6 @@ import {
   run,
 } from './util';
 
-
 const globalOptions = {
   resolveOnly: false,
   runCondition: () => true,
