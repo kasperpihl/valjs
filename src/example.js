@@ -1,30 +1,31 @@
 import val, { bool, string, number, array, object, any, date, func, funcWrap } from './index';
 
-const deleteGoal = funcWrap([
-  string.require()
-], (err, id) => {
-  if(!err){
-    console.log('deleting: ' + id);
-  }
-});
-console.log('test begun');
-console.log('error', array.of(string).test(null));
-console.log('test end');
-// T_TODO: This should return null
+string.min(1).max(255).toString();
 
-
-const addGoal = funcWrap([object.as({
-  id: string.require(),
-  title: string.require()
-})], (err, goal) => {
-  if(!err){
-    return 'returning some value'
-  }
-});
-
-const addGoal2 = () => {
-  console.log(addGoal({id: 'id1', 'title': 'hello'}));
-}
-
-addGoal2();
-deleteGoal('id1');
+const res = array.as([
+  string.require().min(1, 2, [
+    'test',
+    'two'
+  ]),
+  object.as({
+    hello: string,
+    world: object.of(string).require(),
+    lala: any.of([
+      'test',
+      string.min(1)
+    ])
+  }),
+  number,
+  array.as([
+    array.as([
+      string,
+    ])
+  ])
+]).toString();
+console.log(res);
+/*object.as({
+  test: string.min(1).format('email'),
+  hello: object.of(string).require(),
+  world: array.min(1).require(),
+}).toString();
+*/

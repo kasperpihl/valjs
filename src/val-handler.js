@@ -1,7 +1,6 @@
 import val from './val';
-import {
-  run,
-} from './util';
+import { run } from './util';
+import toString from './to-string';
 import * as defaults from './extensions/defaults';
 
 // ======================================================
@@ -15,6 +14,7 @@ export default function ValHandler(expectedType, extensions) {
   extensions = [defaults].concat(extensions || []);
   const bindAllExtensions = (valObj) => {
     valObj.test = valObj.__test.bind(null, valObj);
+    valObj.toString = toString.bind(null, valObj);
     valObj.nested = valObj.__nested.bind(valObj, valObj);
     valObj.require = valObj.__require.bind(null, valObj);
     valObj.extend = valObj.__extend.bind(null, valObj);
