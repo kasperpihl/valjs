@@ -23,6 +23,17 @@ const res = array.as([
   ])
 ]).toString();
 console.log(res);
+
+const wrappy = funcWrap([
+  string,
+  any.of('hello', object.as({
+    test: string,
+  }))
+], (valErr, val1, val2) => {
+
+});
+
+wrappy.schema();
 /*object.as({
   test: string.min(1).format('email'),
   hello: object.of(string).require(),

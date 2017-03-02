@@ -39,10 +39,14 @@ export const funcWrap = (valHandlers, callback) => {
     console.warn('funcWrap wrongly used: ', wrapError)
     return () => {};
   }
-  return function() {
+  const wrap = function() {
     const args = [...arguments];
     const argsErr = array.as(valHandlers).test(args);
 
     return callback(argsErr, ...args);
   }
+  wrap.schema = function() {
+    console.log(array.as(valHandlers).toString());
+  }
+  return wrap;
 }

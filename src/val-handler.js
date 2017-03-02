@@ -15,6 +15,7 @@ export default function ValHandler(expectedType, extensions) {
   const bindAllExtensions = (valObj) => {
     valObj.test = valObj.__test.bind(null, valObj);
     valObj.toString = toString.bind(null, valObj);
+    valObj.schema = valObj.__schema.bind(null, valObj);
     valObj.nested = valObj.__nested.bind(valObj, valObj);
     valObj.require = valObj.__require.bind(null, valObj);
     valObj.extend = valObj.__extend.bind(null, valObj);
@@ -41,6 +42,7 @@ export default function ValHandler(expectedType, extensions) {
     __extensions: extensions,
     __required: false,
     __nested: run,
+    __schema: (resObj) => console.log(resObj.toString()),
     __require: (resObj) => {
       resObj = Object.assign({}, resObj);
       resObj.__required = true;
