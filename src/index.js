@@ -11,9 +11,10 @@ import * as iteratives from './extensions/iteratives';
 // min, max, empty
 import * as bounds from './extensions/bounds';
 import format from './extensions/format';
+import int from './extensions/int';
 
 export const string = ValHandler('string', [comp, format, bounds]);
-export const number = ValHandler('number', [comp, format]);
+export const number = ValHandler('number', [comp, format, int]);
 export const bool = ValHandler('bool', [{ eq: comp.eq, neq: comp.neq}]);
 export const date = ValHandler('date');
 export const func = ValHandler('func');

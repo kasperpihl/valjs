@@ -1,7 +1,5 @@
 import val, { bool, string, number, array, object, any, date, func, funcWrap } from './index';
 
-string.min(1).max(255).toString();
-
 const res = array.as([
   string.require().min(1, 2, [
     'test',
