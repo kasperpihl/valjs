@@ -179,3 +179,24 @@ describe('number format', function() {
     done();
   });
 });
+
+describe('number int', function() {
+  it('check if int', (done) => {
+    const error = valjs(2, number.int());
+
+    should.equal(error, null);
+    done();
+  });
+  it('error int', (done) => {
+    const error = valjs(9.5, number.int());
+
+    should.equal(error, 'Invalid: 9.5 is not an integer');
+    done();
+  });
+  it('error int', (done) => {
+    const error = valjs('9', number.int());
+
+    should.equal(error, 'Invalid: expected number. got string');
+    done();
+  });
+});
