@@ -15,7 +15,8 @@ export default {
     if(!format instanceof RegExp){
       return `format not a regex: ${format}`;
     }
-    if(!format.test(value)){
+    const regex = new RegExp(format);
+    if(!regex.test(value)){
       return `did not match format`;
     }
     return null;
