@@ -1,4 +1,4 @@
-import 'core-js/fn/object/entries';
+import 'babel-polyfill';
 // Validator essentials
 import ValHandler from './val-handler';
 import val from './val';
