@@ -1,5 +1,4 @@
-import { isValHandler } from './util';
-import indentString from 'indent-string';
+import { isValHandler, indentString } from './util';
 
 export default function toString(resObj, indent = 0) {
   let addIndention = (level) => {
