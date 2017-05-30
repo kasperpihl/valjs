@@ -1,9 +1,14 @@
 import val, { bool, string, number, array, object, any, date, func, funcWrap } from './index';
 
 const lala = string.format(/^[A-Za-z0-9]+$/g).min(6).max(6).require();
-console.log('test', lala.test('A123BJ'));
-console.log('test2', lala.test('A123BJ'));
 
+
+let scheme = string.require();
+
+console.log('tested "hi":', scheme.test('hi'));
+console.log('tested null:', scheme.test(null));
+scheme = scheme.acceptNull();
+console.log('tested null w/ acceptNull:', scheme.test(null));
 
 const res = array.as([
   string.require().min(1, 2, [
@@ -25,7 +30,7 @@ const res = array.as([
     ])
   ])
 ]).toString();
-console.log(res);
+// console.log(res);
 
 const wrappy = funcWrap([
   string,
@@ -36,7 +41,7 @@ const wrappy = funcWrap([
 
 });
 
-wrappy.schema();
+// wrappy.schema();
 /*object.as({
   test: string.min(1).format('email'),
   hello: object.of(string).require(),

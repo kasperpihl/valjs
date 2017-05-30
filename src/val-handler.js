@@ -18,6 +18,7 @@ export default function ValHandler(expectedType, extensions) {
     valObj.schema = valObj.__schema.bind(null, valObj);
     valObj.nested = valObj.__nested.bind(valObj, valObj);
     valObj.require = valObj.__require.bind(null, valObj);
+    valObj.acceptNull = valObj.__acceptNull.bind(null, valObj);
     valObj.extend = valObj.__extend.bind(null, valObj);
     valObj.__extensions.forEach((ext) => {
       Object.entries(ext).forEach(([name, handler]) => {
@@ -35,6 +36,13 @@ export default function ValHandler(expectedType, extensions) {
     return valObj;
   };
 
+  const setGlobalProp = (resObj, prop) => {
+    resObj = Object.assign({}, resObj);
+    resObj[prop] = true;
+    bindAllExtensions(resObj);
+    return resObj;
+  }
+
   // Setting initial val object.
   let valObj = {
     __type: expectedType,
@@ -43,12 +51,8 @@ export default function ValHandler(expectedType, extensions) {
     __required: false,
     __nested: run,
     __schema: (resObj) => console.log(resObj.toString()),
-    __require: (resObj) => {
-      resObj = Object.assign({}, resObj);
-      resObj.__required = true;
-      bindAllExtensions(resObj);
-      return resObj;
-    },
+    __acceptNull: (resObj) => setGlobalProp(resObj, '__acceptedNull'),
+    __require: (resObj) => setGlobalProp(resObj, '__required'),
     __test: (resObj, value, options) => val(value, resObj, options),
     __extend: (resObj, ext) => {
       resObj.__extensions.push(ext); // deliberately mutate extensions to work globally

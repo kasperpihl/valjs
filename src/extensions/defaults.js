@@ -3,9 +3,11 @@ import {
 } from '../util';
 
 export function __typeChecker(key, value, expectedType) {
-  const hasValue = (typeof value !== 'undefined' && value !== null);
+  let hasValue = (typeof value !== 'undefined' && value !== null);
   if(this.__required && !hasValue){
-    return 'required';
+    if(!(this.__acceptedNull && value === null)){
+      return 'required';
+    }
   }
   const type = getType(value);
   if (hasValue && expectedType && type !== expectedType) {
