@@ -1,4 +1,4 @@
-import val, { bool, string, number, array, object, any, date, func, funcWrap } from './index';
+import val, { bool, string, number, array, object, any, date, func, funcWrap } from 'valjs';
 
 const lala = string.format(/^[A-Za-z0-9]+$/g).min(6).max(6).require();
 

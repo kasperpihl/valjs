@@ -1,7 +1,7 @@
 import chai from 'chai';
 import valjs, {
   string,
-} from '../dist/val';
+} from 'valjs';
 
 const should = chai.should();
 

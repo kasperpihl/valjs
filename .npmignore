@@ -1,6 +1,4 @@
-src
-dist/example.js
+src/
+test/
 .babelrc
-webpack.config.js
-gruntfile.js
 node_modules/

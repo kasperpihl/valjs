@@ -3,7 +3,7 @@ import valjs, {
   string,
   number,
   any,
-} from '../dist/val';
+} from 'valjs';
 
 const should = chai.should();
 
