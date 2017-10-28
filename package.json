@@ -48,5 +48,8 @@
     "build": "node ./tools/build.js",
     "start": "NODE_ENV=test npm run build && node ./dist/tester.js",
     "test": "npm run build && mocha --compilers js:babel-core/register"
+  },
+  "dependencies": {
+    "core-js": "^2.5.1"
   }
 }

@@ -8,7 +8,7 @@ const plugins = [
 ];
 
 if (BABEL_ENV === 'umd') {
-  plugins.push('transform-runtime');
+  plugins.push('external-helpers');
 }
 
 if (process.env.NODE_ENV === 'production') {

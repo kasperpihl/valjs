@@ -14,7 +14,6 @@ const config = {
   plugins: [
     babel({
       exclude: ['node_modules/**'],
-      runtimeHelpers: umd
     }),
     replace({
       'process.env.NODE_ENV': JSON.stringify(prod ? 'production' : 'development'),
